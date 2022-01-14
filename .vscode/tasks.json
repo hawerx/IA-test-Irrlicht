@@ -1,0 +1,27 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make",
+            "type": "shell",
+            "command": "make"
+        },
+        {
+            "label": "open_game",
+            "type": "shell",
+            "command": "./IAtest"
+        },
+        {
+            "label": "cleanall",
+            "type": "shell",
+            "command": "make cleanall"
+        },
+        {
+            "label": "nosan",
+            "type": "shell",
+            "command": "make nosan"
+        }
+    ]
+}

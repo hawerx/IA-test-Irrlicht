@@ -35,7 +35,9 @@ CC				:= g++
 CC_VERSION 		:= 17
 
 # FLAGS PARA EL COMPILADOR. (C++)
-CXXFLAGS 		:= -g -Wall -Wpedantic -fsanitize=address -std=c++$(CC_VERSION)
+CXXFLAGS 		:= -g -Wall -Wpedantic -fsanitize=address -lIrrlicht -std=c++$(CC_VERSION)
+
+CXXFLAGS_NOSAN	:= -g -Wall -Wpedantic -lIrrlicht -std=c++$(CC_VERSION)
 
 # DIRECTORIO "SRC".
 SRC				:= src
@@ -82,8 +84,6 @@ OBJSUBDIRS	:= $(patsubst $(SRC)%,$(OBJ)%,$(SUBDIRS))		# UNA VEZ OBTENIDOS, CAMBI
 .PHONY: info  # COMO "INFO" NO GENERA NADA, SE PONE COMO PHONY. (Al hacer "make info", no se hace nada.)
 
 all: $(GAME)
-	
-	
 
 # CREACION DE LA CARPETA "OBJ"
 $(OBJSUBDIRS): $(SUBDIRS)
@@ -106,7 +106,6 @@ $(foreach F,$(C_FILES),   $(eval $(call COMP_OBJ,$(CC),$(call CPP_TO_OBJ,$(F)),$
 
 $(GAME):  $(OBJSUBDIRS) $(OBJ_FILES) $(HPP_FILES)
 	$(CC) $(CXXFLAGS) $(LIBRARIES) -o $(GAME) $(OBJ_FILES) 
-
 
 # ELIMINA LOS DIRECTORIOS "OBJ", "DOC" Y EL JUEGO FINAL COMPILADO. (SE PUEDE USAR "make clean" O "make clear". ES LO MISMO)
 cleanall:
