@@ -30,18 +30,20 @@ endef
 
 
 # COMPILADOR A UTILIZAR. (C++)
-CC				:= g++
+CC				:= clang++
 
-CC_VERSION 		:= 17
+CC_VERSION 		:= 20
 
 # FLAGS PARA EL COMPILADOR. (C++)
-CXXFLAGS 		:= -g -Wall -Wpedantic -fsanitize=address -lIrrlicht -std=c++$(CC_VERSION)
+CXXFLAGS 		:= -g -Wextra -Wall -Wpedantic -fsanitize=address -std=c++$(CC_VERSION)
 
-CXXFLAGS_NOSAN	:= -g -Wall -Wpedantic -lIrrlicht -std=c++$(CC_VERSION)
+LIBS 			:= -lIrrlicht
 
 # DIRECTORIO "SRC".
 SRC				:= src
 ALLSRC			:= src/*
+
+INC 			:= include
 
 GAME 			:= IAtest
 
@@ -56,10 +58,10 @@ CPP_FILES 		:= $(shell find $(SRC)/ -type f -iname *.cpp)
 C_FILES			:= $(shell find $(SRC)/ -type f -iname *.c)
 
 # FICHEROS ".hpp"
-HPP_FILES		:= $(shell find $(SRC)/ -type f -iname *.hpp)
+HPP_FILES		:= $(shell find $(INC)/ -type f -iname *.hpp)
 
 # FICHEROS ".h"
-H_FILES			:= $(shell find $(SRC)/ -type f -iname *.h)
+H_FILES			:= $(shell find $(INC)/ -type f -iname *.h)
 
 # FICHEROS ".o" TANTO DE C++ COMO DE C
 OBJ_FILES		:= $(foreach F,$(CPP_FILES) $(C_FILES),$(call CPP_TO_OBJ,$(F)))
@@ -104,8 +106,8 @@ $(foreach F,$(CPP_FILES), $(eval $(call COMP_OBJ,$(CC),$(call CPP_TO_OBJ,$(F)),$
 $(foreach F,$(C_FILES),   $(eval $(call COMP_OBJ,$(CC),$(call CPP_TO_OBJ,$(F)),$(F),,$(CXXFLAGS))))
 
 
-$(GAME):  $(OBJSUBDIRS) $(OBJ_FILES) $(HPP_FILES)
-	$(CC) $(CXXFLAGS) $(LIBRARIES) -o $(GAME) $(OBJ_FILES) 
+$(GAME):  $(OBJSUBDIRS) $(OBJ_FILES) $(CPP_FILES) $(HPP_FILES)
+	$(CC) $(CXXFLAGS) -o $(GAME) $(OBJ_FILES) $(LIBS)
 
 # ELIMINA LOS DIRECTORIOS "OBJ", "DOC" Y EL JUEGO FINAL COMPILADO. (SE PUEDE USAR "make clean" O "make clear". ES LO MISMO)
 cleanall:
